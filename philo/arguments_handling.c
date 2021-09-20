@@ -6,7 +6,7 @@
 /*   By: ljulien <ljulien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:52:47 by ljulien           #+#    #+#             */
-/*   Updated: 2021/09/18 18:36:01 by ljulien          ###   ########.fr       */
+/*   Updated: 2021/09/20 18:28:07 by ljulien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,18 @@ long	atoi_check(t_academy *acad, const char *str)
 	if (str[i] != '\0' || flag == 0)
 		error(acad);
 	return ((long)(nb));
+}
+
+void	arguments_handling(t_academy *acad, char **av, int ac)
+{
+	acad->nb = atoi_check(acad, av[1]);
+	acad->to_die = atoi_check(acad, av[2]);
+	acad->to_eat = atoi_check(acad, av[3]);
+	acad->to_sleep = atoi_check(acad, av[4]);
+	if (ac = 6)
+	{
+		acad->times_eat = atoi_check(acad, av[5]);
+	}
+	else
+		acad->times_eat = -1;
 }

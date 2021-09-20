@@ -6,7 +6,7 @@
 /*   By: ljulien <ljulien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 17:35:23 by ljulien           #+#    #+#             */
-/*   Updated: 2021/09/18 18:45:43 by ljulien          ###   ########.fr       */
+/*   Updated: 2021/09/20 18:26:45 by ljulien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int main(int ac, char **av)
     if (ac > 6 || ac < 5)
         return(0);
     academy = malloc(sizeof(t_academy));
-    argument_handling(academy, av);
+    argument_handling(academy, av, ac);
     create_philophers(academy);
     create_forks(academy);
     initialization(academy);

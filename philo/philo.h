@@ -6,7 +6,7 @@
 /*   By: ljulien <ljulien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 17:36:14 by ljulien           #+#    #+#             */
-/*   Updated: 2021/09/18 18:02:42 by ljulien          ###   ########.fr       */
+/*   Updated: 2021/09/20 18:28:23 by ljulien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ typedef struct s_academy
 {
     t_philo *philos;
     t_fork  *forks;
+    long    nb;
+    long    to_sleep;
+    long    to_eat;
+    long    to_die;
+    long    times_eat;
 
 }               t_academy;
 
@@ -42,5 +47,7 @@ typedef struct      s_fork
     int             n;
     pthread_mutex_t *id;
 }                   t_fork;
+
+void	arguments_handling(t_academy *acad, char **av, int ac);
 
 #endif

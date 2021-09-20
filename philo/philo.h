@@ -6,7 +6,7 @@
 /*   By: ljulien <ljulien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 17:36:14 by ljulien           #+#    #+#             */
-/*   Updated: 2021/09/20 18:28:23 by ljulien          ###   ########.fr       */
+/*   Updated: 2021/09/20 23:31:11 by ljulien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,34 +20,33 @@
 # include <pthread.h>
 # include <sys/time.h>
 
+typedef struct s_philo
+{
+    int                 n;
+    pthread_t           *id;
+    struct s_philo             *p_right;
+    struct s_philo             *p_left;
+    pthread_mutex_t     *f_right;
+    pthread_mutex_t     *f_left;
+    pthread_mutex_t     speak;
+}               t_philo;
+
 typedef struct s_academy
 {
     t_philo *philos;
-    t_fork  *forks;
+    pthread_mutex_t  *forks;
+    pthread_mutex_t  speak;
     long    nb;
     long    to_sleep;
     long    to_eat;
     long    to_die;
     long    times_eat;
 
+
 }               t_academy;
 
-typedef struct s_philo
-{
-    int         n;
-    pthread_t   *id;
-    t_philo     *p_right;
-    t_philo     *p_left;
-    t_fork      *f_right;
-    t_fork      *f_left;
-}               t_philo;
-
-typedef struct      s_fork
-{
-    int             n;
-    pthread_mutex_t *id;
-}                   t_fork;
-
 void	arguments_handling(t_academy *acad, char **av, int ac);
+void	error(t_academy *acad);
+void	ft_putnbr_fd(int n, int fd);
 
 #endif

@@ -6,33 +6,26 @@
 /*   By: ljulien <ljulien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:52:47 by ljulien           #+#    #+#             */
-/*   Updated: 2021/09/18 18:17:30 by ljulien          ###   ########.fr       */
+/*   Updated: 2021/09/20 23:31:50 by ljulien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "philo.h"
 
-void	del_int(void *content)
+void	ft_putstr_fd(char *s, int fd)
 {
-	free((int *)content);
-	content = NULL;
-}
+	int	i;
 
-void	del_str(void *content)
-{
-	free((char *)content);
-	content = NULL;
+	i = 0;
+	while (s[i] != 0)
+		i++;
+	write(fd, s, i);
 }
 
 void	free_struct(t_academy *acad)
 {
-	free(psh_swp->str);
-	free(psh_swp->kept);
-	ft_lstclear(&(psh_swp->cmd_head), del_int);
-	ft_lstclear(&(psh_swp->head_a), del_int);
-	ft_lstclear(&(psh_swp->head_b), del_int);
-	free(psh_swp);
-	psh_swp = NULL;
+	free(acad);
+	acad = NULL;
 }
 
 char	**ft_freetabs(char **t)

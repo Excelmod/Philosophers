@@ -6,7 +6,7 @@
 /*   By: ljulien <ljulien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:52:47 by ljulien           #+#    #+#             */
-/*   Updated: 2021/09/20 23:28:29 by ljulien          ###   ########.fr       */
+/*   Updated: 2021/09/22 01:13:47 by ljulien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,8 @@ void	arguments_handling(t_academy *acad, char **av, int ac)
 	acad->to_eat = atoi_check(acad, av[3]);
 	acad->to_sleep = atoi_check(acad, av[4]);
 	if (ac == 6)
-	{
 		acad->times_eat = atoi_check(acad, av[5]);
-	}
 	else
 		acad->times_eat = -1;
+	printf("%ld %ld %ld %ld %ld \n", acad->nb, acad->to_die, acad->to_eat, acad->to_sleep, acad->times_eat);
 }

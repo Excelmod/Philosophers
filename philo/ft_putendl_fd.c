@@ -1,42 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_handling.c                                    :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ljulien <ljulien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/07 14:52:47 by ljulien           #+#    #+#             */
-/*   Updated: 2021/10/06 23:00:17 by ljulien          ###   ########.fr       */
+/*   Created: 2019/10/09 15:08:37 by ljulien           #+#    #+#             */
+/*   Updated: 2021/10/06 23:52:00 by ljulien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	free_struct(t_academy *acad)
+void	ft_putchar_fd(char c, int fd)
 {
-	free(acad);
-	acad = NULL;
+	write(fd, &c, 1);
 }
 
-char	**ft_freetabs(char **t)
+size_t	ft_strlen(const char *s)
 {
-	int	i;
+	size_t	n;
 
-	i = 0;
-	while (t[i] != NULL)
-	{
-		free(t[i]);
-		t[i] = NULL;
-		i++;
-	}
-	free(t);
-	t = NULL;
-	return (NULL);
+	n = 0;
+	while (s && s[n] != 0)
+		n++;
+	return (n);
 }
 
-void	error(t_academy *acad)
+void	ft_putendl_fd(char *s, int fd)
 {
-	ft_putstr_fd("Error\n", 2);
-	free_struct(acad);
-	exit(0);
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
 }

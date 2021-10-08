@@ -1,42 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_handling.c                                    :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ljulien <ljulien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/07 14:52:47 by ljulien           #+#    #+#             */
-/*   Updated: 2021/10/06 23:00:17 by ljulien          ###   ########.fr       */
+/*   Created: 2019/10/09 15:03:39 by ljulien           #+#    #+#             */
+/*   Updated: 2021/10/06 22:57:42 by ljulien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	free_struct(t_academy *acad)
-{
-	free(acad);
-	acad = NULL;
-}
-
-char	**ft_freetabs(char **t)
+void	ft_putstr_fd(char *s, int fd)
 {
 	int	i;
 
 	i = 0;
-	while (t[i] != NULL)
-	{
-		free(t[i]);
-		t[i] = NULL;
+	while (s[i] != 0)
 		i++;
-	}
-	free(t);
-	t = NULL;
-	return (NULL);
-}
-
-void	error(t_academy *acad)
-{
-	ft_putstr_fd("Error\n", 2);
-	free_struct(acad);
-	exit(0);
+	write(fd, s, i);
 }

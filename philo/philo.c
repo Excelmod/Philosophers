@@ -6,7 +6,7 @@
 /*   By: ljulien <ljulien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 17:35:23 by ljulien           #+#    #+#             */
-/*   Updated: 2021/09/22 01:20:33 by ljulien          ###   ########.fr       */
+/*   Updated: 2021/10/07 01:10:55 by ljulien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,77 +20,127 @@ long    diff_time(long time)
     return ((tv.tv_usec / 1000) + (tv.tv_sec * 1000) - time);
 }
 
+int    ft_usleep(long time, t_philo *philo)
+{
+    long    start;
+
+    start = diff_time(0);
+    while (diff_time(start) < time)
+    {
+        if (philo->acad->stop == 0)
+            usleep(200);
+        else
+            return (1);
+    }
+    return (0);
+}
+
+void     philo_speak(t_philo* philo, char *msg)
+{
+    long time_0;
+    /*char  *str1;
+    char  *str2;
+    char  *str;*/
+
+
+    time_0 = philo->acad->time_0;
+    if (philo->acad->stop == 0)
+    {
+        /*str2 = ft_itoa(philo->n);
+        str1 = ft_itoa(diff_time(time_0));
+        time_0 = ft_strlen(str1) + ft_strlen(str2) + ft_strlen(msg) + 2;
+        str = malloc(sizeof(char *) * (time_0));
+        str[0] = 0;
+        strlcat(str, str1, time_0);
+        strlcat(str, str2, time_0);
+        strlcat(str, msg, time_0);
+        strlcat(str, "\n", time_0);
+        pthread_mutex_lock(&(philo->speak));
+        ft_putstr_fd(str, 1);
+        usleep(150);
+        pthread_mutex_unlock(&(philo->speak));
+        free(str1);
+        free(str2);
+        free(str);*/
+        pthread_mutex_lock(&(philo->speak));
+        if (philo->acad->stop == 0)
+            printf("%ld %d %s\n", diff_time(time_0), philo->n, msg);
+        pthread_mutex_unlock(&(philo->speak));
+    }
+}
+
 void    *philo_life(void *arg)
 {
     t_philo *philo;
     long    time_0;
 
-    int     n;
-
     philo = arg;
-    n = 0;
+    philo->meals = 0;
     time_0 = philo->acad->time_0;
-    while (philo->acad->times_eat == -1 || philo->acad->times_eat > n)
+    while (1)
     {
         if (philo->n % 2)
         {
             pthread_mutex_lock(philo->f_right);
-            pthread_mutex_lock(&(philo->speak));
-            printf("%ld %d has taken a fork\n",diff_time(time_0), philo->n);
-            pthread_mutex_unlock(&(philo->speak));
+            philo_speak(philo, "has taken a fork");
             pthread_mutex_lock(philo->f_left);
         }
         else
         {
             pthread_mutex_lock(philo->f_left);
-            pthread_mutex_lock(&(philo->speak));
-            printf("%ld %d has taken a fork\n",diff_time(time_0), philo->n);
-            pthread_mutex_unlock(&(philo->speak));
+            philo_speak(philo, "has taken a fork");
             pthread_mutex_lock(philo->f_right);
         }
-        pthread_mutex_lock(&(philo->speak));
-        printf("%ld %d has taken a fork\n",diff_time(time_0), philo->n);
-        pthread_mutex_unlock(&(philo->speak));
-        pthread_mutex_lock(&(philo->speak));
-        printf("%ld %d is eating\n",diff_time(time_0), philo->n);
+        philo_speak(philo, "has taken a fork");
+        philo_speak(philo, "is eating");
         philo->lst_meal = diff_time(philo->acad->time_0); 
-        pthread_mutex_unlock(&(philo->speak));
-        usleep(philo->acad->to_eat * 1000);
+        ft_usleep(philo->acad->to_eat, philo);
         pthread_mutex_unlock(philo->f_left);
         pthread_mutex_unlock(philo->f_right);
-        pthread_mutex_lock(&(philo->speak));
-        printf("%ld %d is sleeping\n",diff_time(time_0), philo->n);
-        pthread_mutex_unlock(&(philo->speak));
-        usleep(philo->acad->to_sleep * 1000);
-        pthread_mutex_lock(&(philo->speak));
-        printf("%ld %d is thinking\n",diff_time(time_0), philo->n);
-        pthread_mutex_unlock(&(philo->speak));
-        n++;
+        (philo->meals)++;
+        if (philo->acad->times_eat == philo->meals)
+        return(0);
+        philo_speak(philo, "is sleeping");
+        if(ft_usleep(philo->acad->to_sleep, philo))
+            return(0);
+        philo_speak(philo, "is thinking");
     }
     return(NULL);
 }
 
-void    *timer_thread(void *arg)
+void    timer(t_academy *acad)
 {
-    int n;
-    t_academy *acad;
+    int         n;
+    int         cnt;
 
-    acad = arg;
     while(1)
     {
         n = 0;
+        cnt = 0;
+        usleep(50);
         while (n < acad->nb)
         {
-            if ((diff_time(acad->time_0) - acad->philos[n].lst_meal) > acad->to_die)
+            if (acad->times_eat != -1 && acad->philos[n].meals >= acad->times_eat)
             {
+                cnt++;
+            }      
+            else if ((diff_time(acad->time_0) - acad->philos[n].lst_meal) > acad->to_die)
+            {
+                acad->stop = 1;
                 pthread_mutex_lock(&(acad->speak));
-                printf("%ld %d died %ld\n",diff_time(acad->time_0), n + 1, acad->to_die);
-                return(0);
-            }            
+                usleep(200);
+                printf("%ld %d died\n",diff_time(acad->time_0), n + 1);
+                pthread_mutex_unlock(&(acad->speak));
+                return;
+            }     
             n++;
         }
+        if  (cnt == acad->nb)
+        {
+            acad->stop = 1;
+            return;
+        }
     }
-    return(NULL);
 }
 
 void    create_philophers(t_academy *acad)
@@ -124,10 +174,7 @@ void    create_philophers(t_academy *acad)
         n--;
     }
     n = 0;
-    acad->timer = malloc(sizeof(pthread_t));
     acad->time_0 = diff_time(0);
-    if (pthread_create(acad->timer, NULL, &timer_thread, (void *)acad))
-        error(acad);
     while (n < acad->nb)
     {
         if(pthread_create(acad->philos[n].id, NULL, &philo_life, (void *)&(acad->philos[n])))
@@ -164,17 +211,25 @@ int     main(int ac, char **av)
         return(0);
     academy = malloc(sizeof(t_academy));
     arguments_handling(academy, av, ac);
-    academy->death = 0;
+    academy->stop = 0;
     create_forks(academy);
-
     create_philophers(academy);
-    //initialization(academy);
     //destroy_academy(academy);
     
-    pthread_join(*(academy->timer), NULL);
-    printf("FIN\n");
-    //free(academy->forks);
-    //free(academy->philos);
-    //free(academy);
+    timer(academy);
+    int i;
+
+    i = 0;
+    while(i < academy->nb)
+    {
+        pthread_join(*(academy->philos[i].id), NULL);
+        printf("FIN du philo %d et il a mange %ld fois\n", i + 1, academy->philos[i].meals);
+        pthread_mutex_destroy(academy->philos[i].f_right);
+        i++;
+    }
+    pthread_mutex_destroy(&(academy->speak));
+    free(academy->forks);
+    free(academy->philos);
+    free(academy);
     return(0);   
 }

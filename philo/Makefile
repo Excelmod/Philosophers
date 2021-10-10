@@ -10,7 +10,7 @@ all : $(NAME)
 	gcc -c $(CFLAGS) $(HEADERS) $< -o $@
 
 $(NAME) : $(OBJS)
-	gcc -pthread -o $@ $(OBJS) $(HEADERS)
+	gcc -pthread -g -fsanitize=thread -o $@ $(OBJS) $(HEADERS)
 
 clean:
 	rm -f $(OBJS)

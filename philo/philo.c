@@ -6,7 +6,7 @@
 /*   By: ljulien <ljulien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 17:35:23 by ljulien           #+#    #+#             */
-/*   Updated: 2021/10/07 01:10:55 by ljulien          ###   ########.fr       */
+/*   Updated: 2021/10/10 15:02:58 by ljulien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,9 @@ void     philo_speak(t_philo* philo, char *msg)
 void    *philo_life(void *arg)
 {
     t_philo *philo;
-    long    time_0;
 
     philo = arg;
     philo->meals = 0;
-    time_0 = philo->acad->time_0;
     while (1)
     {
         if (philo->n % 2)

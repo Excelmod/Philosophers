@@ -6,7 +6,7 @@
 /*   By: ljulien <ljulien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 17:35:23 by ljulien           #+#    #+#             */
-/*   Updated: 2021/10/13 00:05:03 by ljulien          ###   ########.fr       */
+/*   Updated: 2021/10/13 00:27:55 by ljulien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ int	main(int ac, char **av)
 	int			i;
 
 	if (ac > 6 || ac < 5)
+	{
+		ft_putendl_fd("Error :Incorrect number of arguments", 2);
 		return (0);
+	}
 	academy = malloc(sizeof(t_academy));
 	arguments_handling(academy, av, ac);
 	academy->stop = 0;

@@ -6,7 +6,7 @@
 /*   By: ljulien <ljulien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:52:47 by ljulien           #+#    #+#             */
-/*   Updated: 2021/10/12 23:32:23 by ljulien          ###   ########.fr       */
+/*   Updated: 2021/10/13 00:26:38 by ljulien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,14 @@ char	**ft_freetabs(char **t)
 	free(t);
 	t = NULL;
 	return (NULL);
+}
+
+void	error_msg(t_academy *acad, char *s)
+{
+	ft_putstr_fd("Error :", 2);
+	ft_putendl_fd(s, 2);
+	free(acad);
+	exit(0);
 }
 
 void	error(t_academy *acad)

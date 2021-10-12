@@ -6,7 +6,7 @@
 /*   By: ljulien <ljulien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:52:47 by ljulien           #+#    #+#             */
-/*   Updated: 2021/10/13 00:16:35 by ljulien          ###   ########.fr       */
+/*   Updated: 2021/10/13 00:31:20 by ljulien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,19 @@ long	atoi_check(t_academy *acad, const char *str)
 {
 	int			i;
 	long long	nb;
-	int			flag;
+	long long	tmp;
 
 	i = 0;
 	nb = 0;
-	flag = 0;
 	while (str[i] != '\0' && str[i] >= '0' && str[i] <= '9')
 	{
-		nb = nb * 10 + str[i++] - '0';
-		flag = 1;
-		if (nb > 9223372036854775807)
-			error(acad);
+		tmp = nb * 10 + str[i++] - '0';
+		if (nb > tmp)
+			error_msg(acad, "Integer bigger than a long type");
+		nb = tmp;
 	}
-	if (str[i] != '\0' || flag == 0)
-		error(acad);
+	if (str[i] != '\0')
+		error_msg(acad, "Incorrect type of argument");
 	return ((long)(nb));
 }
 

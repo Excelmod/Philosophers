@@ -6,7 +6,7 @@
 /*   By: ljulien <ljulien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 17:36:14 by ljulien           #+#    #+#             */
-/*   Updated: 2021/10/13 00:01:16 by ljulien          ###   ########.fr       */
+/*   Updated: 2021/10/13 00:27:16 by ljulien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	error(t_academy *acad);
 void	timer(t_academy *acad);
 void	initialization(t_academy *acad);
 int		ft_usleep(long time, t_philo *philo);
+void	error_msg(t_academy *acad, char *s);
 void	ft_itoa_philo(char *s, long time, int n, char *msg);
 
 #endif

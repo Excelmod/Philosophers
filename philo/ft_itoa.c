@@ -6,7 +6,7 @@
 /*   By: ljulien <ljulien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 20:03:13 by ljulien           #+#    #+#             */
-/*   Updated: 2021/10/06 22:57:45 by ljulien          ###   ########.fr       */
+/*   Updated: 2021/10/12 18:02:13 by ljulien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_lgh(long n)
 	return (lgh);
 }
 
-void	ft_fills(long n, int lgh, char *s)
+void	ft_fill(long n, int lgh, char *s)
 {
 	int		stop;
 
@@ -57,7 +57,7 @@ char	*ft_itoa(long n)
 	s = malloc((lgh + 2) * sizeof(char));
 	if (s != NULL)
 	{
-		ft_fills(n, lgh, s);
+		ft_fill(n, lgh, s);
 		s[lgh + 1] = 0;
 		s[lgh] = ' ';
 	}

@@ -6,7 +6,7 @@
 /*   By: ljulien <ljulien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 17:36:14 by ljulien           #+#    #+#             */
-/*   Updated: 2021/10/07 00:56:06 by ljulien          ###   ########.fr       */
+/*   Updated: 2021/10/12 18:23:44 by ljulien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,9 @@ typedef struct s_philo
 {
     int                 n;
     pthread_t           *id;
-    struct s_philo             *p_right;
-    struct s_philo             *p_left;
     pthread_mutex_t     *f_right;
     pthread_mutex_t     *f_left;
-    pthread_mutex_t     speak;
+    pthread_mutex_t     *speak;
     long                lst_meal;
     long                meals;
     struct s_academy    *acad;
@@ -41,7 +39,7 @@ typedef struct s_academy
 {
     t_philo *philos;
     pthread_mutex_t  *forks;
-    pthread_mutex_t  speak;
+    pthread_mutex_t  *speak;
     long    nb;
     long    to_sleep;
     long    to_eat;
@@ -59,5 +57,6 @@ void	ft_putendl_fd(char *s, int fd);
 void	arguments_handling(t_academy *acad, char **av, int ac);
 void	error(t_academy *acad);
 void	ft_putnbr_fd(int n, int fd);
+void	ft_itoa_philo(char *s, long time, int n, char *msg);
 
 #endif

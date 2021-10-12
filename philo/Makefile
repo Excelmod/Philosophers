@@ -1,4 +1,4 @@
-SRCS = philo.c arguments_handling.c exit_handling.c ft_itoa.c ft_putstr_fd.c ft_putendl_fd.c
+SRCS = philo.c arguments_handling.c exit_handling.c ft_itoa.c ft_putstr_fd.c ft_putendl_fd.c ft_itoa_philo.c
 OBJS = $(SRCS:.c=.o)
 CFLAGS = -Wall -Werror -Wextra -pthread
 HEADERS = -I .
@@ -10,7 +10,7 @@ all : $(NAME)
 	gcc -c $(CFLAGS) $(HEADERS) $< -o $@
 
 $(NAME) : $(OBJS)
-	gcc -pthread -g -fsanitize=thread -o $@ $(OBJS) $(HEADERS)
+	gcc -pthread -o $@ $(OBJS) $(HEADERS)
 
 clean:
 	rm -f $(OBJS)

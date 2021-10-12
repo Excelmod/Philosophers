@@ -6,7 +6,7 @@
 /*   By: ljulien <ljulien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 17:35:23 by ljulien           #+#    #+#             */
-/*   Updated: 2021/10/10 15:02:58 by ljulien          ###   ########.fr       */
+/*   Updated: 2021/10/12 18:57:57 by ljulien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,36 +38,23 @@ int    ft_usleep(long time, t_philo *philo)
 void     philo_speak(t_philo* philo, char *msg)
 {
     long time_0;
-    /*char  *str1;
-    char  *str2;
-    char  *str;*/
+    char  str[100];
 
 
     time_0 = philo->acad->time_0;
     if (philo->acad->stop == 0)
     {
-        /*str2 = ft_itoa(philo->n);
-        str1 = ft_itoa(diff_time(time_0));
-        time_0 = ft_strlen(str1) + ft_strlen(str2) + ft_strlen(msg) + 2;
-        str = malloc(sizeof(char *) * (time_0));
-        str[0] = 0;
-        strlcat(str, str1, time_0);
-        strlcat(str, str2, time_0);
-        strlcat(str, msg, time_0);
-        strlcat(str, "\n", time_0);
-        pthread_mutex_lock(&(philo->speak));
-        ft_putstr_fd(str, 1);
-        usleep(150);
-        pthread_mutex_unlock(&(philo->speak));
-        free(str1);
-        free(str2);
-        free(str);*/
-        pthread_mutex_lock(&(philo->speak));
+        ft_itoa_philo(str, diff_time(time_0), philo->n, msg);
+        pthread_mutex_lock(philo->speak);
         if (philo->acad->stop == 0)
-            printf("%ld %d %s\n", diff_time(time_0), philo->n, msg);
-        pthread_mutex_unlock(&(philo->speak));
+        {
+            ft_putstr_fd(str, 2);
+        }
+        pthread_mutex_unlock(philo->speak);
     }
 }
+
+//int     philo();
 
 void    *philo_life(void *arg)
 {
@@ -79,8 +66,14 @@ void    *philo_life(void *arg)
     {
         if (philo->n % 2)
         {
+            usleep(500);
             pthread_mutex_lock(philo->f_right);
             philo_speak(philo, "has taken a fork");
+            if (philo->acad->nb == 1)
+            {
+                pthread_mutex_unlock(philo->f_right);
+                return(NULL);
+            }
             pthread_mutex_lock(philo->f_left);
         }
         else
@@ -125,10 +118,10 @@ void    timer(t_academy *acad)
             else if ((diff_time(acad->time_0) - acad->philos[n].lst_meal) > acad->to_die)
             {
                 acad->stop = 1;
-                pthread_mutex_lock(&(acad->speak));
+                pthread_mutex_lock(acad->speak);
                 usleep(200);
                 printf("%ld %d died\n",diff_time(acad->time_0), n + 1);
-                pthread_mutex_unlock(&(acad->speak));
+                pthread_mutex_unlock(acad->speak);
                 return;
             }     
             n++;
@@ -154,19 +147,13 @@ void    create_philophers(t_academy *acad)
         acad->philos[n - 1].acad = acad;
         acad->philos[n - 1].speak = acad->speak;
         acad->philos[n - 1].lst_meal = 0;
-        if(n == acad->nb)
-            acad->philos[n - 1].p_right = &(acad->philos[0]);
-        else
-            acad->philos[n - 1].p_right = &(acad->philos[n]);
         acad->philos[n - 1].f_right = &(acad->forks[n - 1]);
         if(n != 1)
         {
-            acad->philos[n - 1].p_left = &(acad->philos[n - 2]);
             acad->philos[n - 1].f_left = &(acad->forks[n - 2]);
         }
         else
         {
-            acad->philos[n - 1].p_left = &(acad->philos[acad->nb - 1]);
             acad->philos[n - 1].f_left = &(acad->forks[acad->nb - 1]);
         } 
         n--;
@@ -187,6 +174,7 @@ void    create_forks(t_academy *acad)
 
     n = acad->nb;
     acad->forks = malloc(sizeof(pthread_mutex_t) * n);
+    acad->speak = malloc(sizeof(pthread_mutex_t));
     while (n)
     {
         if (pthread_mutex_init(&(acad->forks[n - 1]), NULL))
@@ -195,7 +183,7 @@ void    create_forks(t_academy *acad)
         }
         n--;
     }
-     if (pthread_mutex_init(&(acad->speak), NULL))
+     if (pthread_mutex_init(acad->speak, NULL))
         {
             error(acad);
         }
@@ -225,7 +213,7 @@ int     main(int ac, char **av)
         pthread_mutex_destroy(academy->philos[i].f_right);
         i++;
     }
-    pthread_mutex_destroy(&(academy->speak));
+    pthread_mutex_destroy(academy->speak);
     free(academy->forks);
     free(academy->philos);
     free(academy);

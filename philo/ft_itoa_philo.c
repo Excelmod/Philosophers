@@ -6,7 +6,7 @@
 /*   By: ljulien <ljulien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 20:03:13 by ljulien           #+#    #+#             */
-/*   Updated: 2021/10/09 21:08:09 by ljulien          ###   ########.fr       */
+/*   Updated: 2021/10/13 00:14:48 by ljulien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_fills(long n, char **s)
 {
-	if(n / 10)
+	if (n / 10)
 	{
 		ft_fills(n / 10, s);
 	}
@@ -24,17 +24,17 @@ void	ft_fills(long n, char **s)
 
 void	ft_itoa_philo(char *s, long time, int n, char *msg)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	ft_fills(time, &s);
 	*(s++) = ' ';
 	ft_fills((long)n, &s);
 	*(s++) = ' ';
-	while(msg[i])
+	while (msg[i])
 	{
 		s[i] = msg[i];
-		i++;		
+		i++;
 	}
 	s[i++] = '\n';
 	s[i] = 0;

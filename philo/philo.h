@@ -6,7 +6,7 @@
 /*   By: ljulien <ljulien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 17:36:14 by ljulien           #+#    #+#             */
-/*   Updated: 2021/10/12 18:23:44 by ljulien          ###   ########.fr       */
+/*   Updated: 2021/10/12 22:24:56 by ljulien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ typedef struct s_philo
     pthread_mutex_t     *f_right;
     pthread_mutex_t     *f_left;
     pthread_mutex_t     *speak;
+    pthread_mutex_t     *mu_meal;
+    pthread_mutex_t     *mu_stop;
     long                lst_meal;
     long                meals;
     struct s_academy    *acad;
@@ -40,6 +42,8 @@ typedef struct s_academy
     t_philo *philos;
     pthread_mutex_t  *forks;
     pthread_mutex_t  *speak;
+    pthread_mutex_t  *mu_stop;
+    pthread_mutex_t     *mu_meal;
     long    nb;
     long    to_sleep;
     long    to_eat;

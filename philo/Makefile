@@ -1,4 +1,4 @@
-SRCS = philo.c arguments_handling.c exit_handling.c ft_itoa.c ft_putstr_fd.c ft_putendl_fd.c ft_itoa_philo.c
+SRCS = philo.c arguments_handling.c exit_handling.c ft_putstr_fd.c ft_putendl_fd.c ft_itoa_philo.c philo_life.c timer.c initialization.c
 OBJS = $(SRCS:.c=.o)
 CFLAGS = -Wall -Werror -Wextra -pthread
 HEADERS = -I .
